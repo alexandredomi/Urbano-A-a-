@@ -30,6 +30,8 @@ function updateSelectionInfo(){
   const includedLimit=getIncludedLimit();
   document.querySelector('#includedCount').textContent=`${selectedIncluded.length}/${includedLimit}`;
   document.querySelector('#extrasCount').textContent=`${selectedExtras.length}`;
+  document.querySelector('#currentTotal').textContent=money(calculateCurrentTotal());
+  document.querySelector('#addToCart').disabled=selectedSize===null;
 }
 function addOption(root,item,type){
   const name=typeof item==='string'?item:item.name,
@@ -50,7 +52,7 @@ function addOption(root,item,type){
       }else{
         const limit=getIncludedLimit();
         if(array.length>=limit){
-          showToast(limit===2?'Açaí pequeno aceita até 2 complementos grátis.':'Você pode escolher até 3 complementos grátis.');
+          showToast(limit===2?'Açaí pequeno aceita até 2 complementos grátis.':'Você pode escolher até 3 complementos grátis.','error');
           return;
         }
         array.push(name);
@@ -90,7 +92,18 @@ function currentOrder(){
   };
 }
 function persistCart(){try{localStorage.setItem(CART_STORAGE_KEY,JSON.stringify(cart))}catch{}}
-function renderCart(){persistCart();const root=document.querySelector('#cartItems'),count=cart.reduce((sum,item)=>sum+item.qty,0),total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);document.querySelector('#cartCount').textContent=count;document.querySelector('#total').textContent=money(total);document.querySelector('#sendOrder').disabled=!cart.length;if(!cart.length){root.innerHTML='<p class="empty">Sua sacola está vazia.<br>Monte um açaí e adicione aqui.</p>';return}root.innerHTML=cart.map(item=>`<article class="cart-item"><div class="cart-item-head"><div><strong>${item.name}</strong><small>${item.detail}</small></div><button class="remove" data-id="${item.id}" aria-label="Remover">×</button></div><p>${item.included.length?item.included.join(', '):'Sem complementos'}${item.extras.length?`<br><b>Extras:</b> ${item.extras.map(extra=>extra.name).join(', ')}`:''}${item.note?`<br><b>Obs.:</b> ${item.note}`:''}${item.pickup?`<br><b>Retirada:</b> loja`:'<br><b>Retirada:</b> em breve'}</p><div class="cart-bottom"><div class="quantity"><button data-action="minus" data-id="${item.id}" aria-label="Diminuir">−</button><span>${item.qty}</span><button data-action="plus" data-id="${item.id}" aria-label="Aumentar">+</button></div><strong>${money(item.price*item.qty)}</strong></div></article>`).join('')}
+function renderCart(){
+  persistCart();
+  const root=document.querySelector('#cartItems');
+  const count=cart.reduce((sum,item)=>sum+item.qty,0);
+  document.querySelector('#cartCount').textContent=count;
+  document.querySelector('#sendOrder').disabled=!cart.length;
+  if(!cart.length){
+    root.innerHTML='<p class="empty">Sua sacola está vazia.<br>Monte um açaí e adicione aqui.</p>';
+    return;
+  }
+  root.innerHTML=cart.map(item=>`<article class="cart-item"><div class="cart-item-head"><div><strong>${item.name}</strong><small>${item.detail}</small></div><button class="remove" data-id="${item.id}" aria-label="Remover">×</button></div><p>${item.included.length?item.included.join(', '):'Sem complementos'}${item.extras.length?`<br><b>Extras:</b> ${item.extras.map(extra=>extra.name).join(', ')}`:''}${item.note?`<br><b>Obs.:</b> ${item.note}`:''}${item.pickup?`<br><b>Retirada:</b> loja`:'<br><b>Retirada:</b> em breve'}</p><div class="cart-bottom"><div class="quantity"><button data-action="minus" data-id="${item.id}" aria-label="Diminuir">−</button><span>${item.qty}</span><button data-action="plus" data-id="${item.id}" aria-label="Aumentar">+</button></div><strong>${money(item.price*item.qty)}</strong></div></article>`).join('');
+}
 function resetBuilder(){
   selectedSize=null;
   selectedIncluded=[];
@@ -100,14 +113,34 @@ function resetBuilder(){
   pickupStoreInput.checked=false;
   updateSelectionInfo();
 }
-document.querySelector('#addToCart').onclick=()=>{const order=currentOrder();if(!order){showToast('Escolha o tamanho do seu açaí primeiro.');return}if(!pickupStoreInput.checked){showToast('Selecione como deseja receber o seu pedido.');return}cart.push(order);renderCart();resetBuilder();toggleCart(false);showToast('Açaí adicionado à sua sacola!')};
+document.querySelector('#addToCart').onclick=event=>{event.stopPropagation();const order=currentOrder();if(!order){showToast('Escolha o tamanho do seu açaí primeiro.','error');return}if(!pickupStoreInput.checked){showToast('Selecione como deseja receber o seu pedido.','error');return}cart.push(order);renderCart();resetBuilder();toggleCart(false);showToast('Açaí adicionado à sua sacola!','success')};
 document.querySelector('#cartItems').onclick=event=>{const button=event.target.closest('button[data-id]');if(!button)return;event.stopPropagation();const item=cart.find(x=>x.id===button.dataset.id);if(!item)return;if(button.classList.contains('remove'))cart=cart.filter(x=>x.id!==item.id);else if(button.dataset.action==='plus')item.qty++;else if(button.dataset.action==='minus')item.qty>1?item.qty--:cart=cart.filter(x=>x.id!==item.id);renderCart()};
-function showToast(message){const toast=document.querySelector('#toast');toast.textContent=message;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3000)}
+function showToast(message,type='error'){
+  const toast=document.querySelector('#toast');
+  const toastText=toast.querySelector('span');
+  toastText.textContent=message;
+  toast.classList.remove('success','error');
+  toast.classList.add('show',type);
+  
+  let timeoutId;
+  const closeToast=()=>{
+    clearTimeout(timeoutId);
+    toast.classList.remove('show');
+    document.removeEventListener('click',closeToast);
+    toast.querySelector('.toast-close').removeEventListener('click',closeToast);
+  };
+  
+  const toastCloseBtn=toast.querySelector('.toast-close');
+  toastCloseBtn.onclick=(e)=>{e.stopPropagation();closeToast()};
+  document.addEventListener('click',closeToast);
+  
+  timeoutId=setTimeout(closeToast,6000);
+}
 function toggleCart(force){const summary=document.querySelector('.summary'),open=typeof force==='boolean'?force:!summary.classList.contains('expanded');summary.classList.toggle('expanded',open);document.querySelector('#cartToggle').setAttribute('aria-expanded',open)}
 document.querySelector('#cartToggle').onclick=()=>toggleCart();document.querySelector('#closeCart').onclick=()=>toggleCart(false);
 document.addEventListener('click',event=>{const summary=document.querySelector('.summary');if(summary.classList.contains('expanded')&&!summary.contains(event.target))toggleCart(false)});
 document.querySelector('#sendOrder').onclick=()=>{
-  if(!cart.length){showToast('Sua sacola está vazia.');return}
+  if(!cart.length){showToast('Sua sacola está vazia.','error');return}
 
   const now=new Date();
   const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);

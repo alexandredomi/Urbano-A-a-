@@ -13,24 +13,29 @@
 </head>
 <body>
   <header class="hero">
-    <nav class="nav container">
-      <a class="brand brand-logo" href="#inicio" aria-label="Açaí Urbano - início"><img src="img/logo fundo transparente grande.png" alt="Urbano Açaí"></a>
-    </nav>
-    <div class="hero-content container" id="inicio">
-      <p class="eyebrow">FEITO DO SEU JEITO</p>
-      <h1>Seu açaí,<br><em>sua energia.</em></h1>
-      <p class="hero-copy">Monte sua combinação favorita e retire quentinho — quer dizer, geladinho — no Açaí Urbano.</p>
-      <a class="cta" href="#monte">Montar meu açaí <span>↓</span></a>
+    <div class="delivery-profile" id="inicio">
+      <div class="profile-cover" aria-hidden="true">
+        <img class="img-fundo-perfil" src="img/Captura de tela 2026-08-15 174024.png" alt="">
+      </div>
+      <div class="profile-info">
+        <div class="profile-logo">
+          <img src="img/fiv-icon.png" alt="Logo do Açaí Urbano">
+        </div>
+        <div class="profile-details">
+          <p class="profile-label">LOJA</p>
+          <h1>Açaí Urbano</h1>
+          <p class="profile-category">Açaí e sobremesas</p>
+          <p class="profile-status"><span></span> Aberto agora · <a href="https://maps.google.com/maps?q=Clovis+Bevilaqua+451+Simoes+Lopes+Pelotas+RS" target="_blank" rel="noopener noreferrer">Retirada no local</a></p>
+        </div>
+      </div>
     </div>
     <div class="berry berry-1"></div><div class="berry berry-2"></div><div class="berry berry-3"></div>
-    <div class="wave"></div>
   </header>
 
   <main class="container" id="monte">
     <section class="intro">
-      <p class="eyebrow purple">MONTE SEU PEDIDO</p>
-      <h2>Como vai ser o seu?</h2>
-      <p>Escolha o tamanho, capriche nos complementos e nós preparamos para você retirar.</p>
+      <h2>Monte seu açaí</h2>
+      <p>Escolha o tamanho e os complementos.</p>
     </section>
 
     <div class="order-layout">
@@ -51,7 +56,7 @@
         </section>
 
         <section class="step">
-          <div class="step-heading"><span>4</span><div><h3>Como deseja receber?</h3><p>Hoje disponível: retirada no local. <br>Clovis Bevilaqua 451 - Simoes Lopes - Pelotas-RS</p></div></div>
+          <div class="step-heading"><span>4</span><div><h3>Como deseja receber?</h3><p>Hoje disponível: retirada no local. <br><a href="https://maps.google.com/maps?q=Clovis+Bevilaqua+451+Simoes+Lopes+Pelotas+RS" target="_blank" rel="noopener noreferrer">Clovis Bevilaqua 451 - Simoes Lopes - Pelotas-RS</a></p></div></div>
           <div class="pickup-options">
             <label class="pickup-option" for="pickupStore">
               <input id="pickupStore" type="checkbox">
@@ -68,15 +73,16 @@
           <label for="notes">Alguma observação?</label>
           <textarea id="notes" maxlength="180" placeholder="Ex.: colocar morango separado, sem leite em pó..."></textarea>
         </section>
-        <button class="builder-add" id="addToCart" type="button">Adicionar este açaí à sacola <span>+</span></button>
       </div>
 
       <aside class="summary" aria-live="polite">
-        <button class="cart-bar" id="cartToggle" type="button" aria-expanded="false">
+        <div class="cart-bar" id="cartToggle" role="button" tabindex="0" aria-expanded="false">
           <span class="cart-bar-title"><i>🛍</i> Minha sacola <b id="cartCount">0</b></span>
-          <span class="cart-bar-total" id="total">R$ 0,00</span>
-          <span class="cart-chevron">⌃</span>
-        </button>
+          <div class="current-order">
+            <span><small>Seu açaí</small><strong id="currentTotal">R$ 0,00</strong></span>
+            <button id="addToCart" type="button" disabled>Adicionar</button>
+          </div>
+        </div>
         <div class="cart-details" id="cartDetails">
           <div class="summary-top"><p>ITENS DA SACOLA</p><button class="close-cart" id="closeCart" type="button" aria-label="Fechar sacola">×</button></div>
           <div class="cart-items" id="cartItems"></div>
@@ -88,8 +94,25 @@
 
   </main>
 
-  <footer><div class="container"><span class="brand"><span>●</span> açaí <b>urbano</b></span><p>Feito com fruta, carinho e muita energia.</p></div></footer>
-  <div class="toast" id="toast" role="status"></div>
+  <div class="toast" id="toast" role="status"><span></span><button class="toast-close" aria-label="Fechar">×</button></div>
+
+  <footer><div class="container">
+    <div class="footer-content">
+      <img src="img/logo fundo transparente grande.png" alt="Logo Açaí Urbano" width="100px">
+      <div class="footer-info">
+        <div class="footer-section">
+          <h4>Endereço:</h4>
+          <a href="https://maps.google.com/maps?q=Clovis+Bevilaqua+451+Simoes+Lopes+Pelotas+RS" target="_blank" rel="noopener noreferrer">
+            Clóvis Beviláqua, 451 - Simões Lopes - Pelotas, RS
+          </a>
+        </div>
+        <div class="footer-section">
+          <h4>Contato:</h4>
+          <a href="https://wa.me/5553984415919" target="_blank" rel="noopener noreferrer">WhatsApp: (53) 9 8441-5919</a>
+        </div>
+      </div>
+    </div>
+  </div></footer>
   <script src="script.js"></script>
 </body>
 </html>
