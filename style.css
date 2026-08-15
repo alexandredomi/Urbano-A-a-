@@ -131,20 +131,13 @@ button { -webkit-tap-highlight-color: transparent; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: rgba(46, 46, 46, 0.356);
-  border-radius: 50%;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 16px;
-  text-decoration: none;
-  transition: all .2s;
 }
 
-.profile-info-icon:hover {
-  background: #535353;
-  transform: scale(1.1);
+.profile-info-icon img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  background-color: ;
 }
 .profile-label { margin: 0 0 2px; color: #89638d; font-size: 10px; font-weight: 800; letter-spacing: 1.6px; }
 .profile-details h1 { margin: 0; font-size: clamp(28px, 4vw, 39px); line-height: 1; letter-spacing: -1.4px; }
@@ -452,6 +445,7 @@ button { -webkit-tap-highlight-color: transparent; }
 
 .cart-bar-title { display: flex; align-items: center; gap: 8px; }
 .cart-bar-title i { font-size: 17px; font-style: normal; }
+.cart-icon { width: 20px; height: 20px; object-fit: contain; }
 
 .cart-bar-title b {
   display: grid;
