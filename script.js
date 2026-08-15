@@ -1,4 +1,25 @@
 const WHATSAPP = '5553984415919'; // Brasil (55) + DDD 53 + número da loja.
+const BUSINESS_HOURS = {
+  1: null,
+  2: { start: 13, end: 22 },
+  3: { start: 13, end: 22 },
+  4: { start: 13, end: 22 },
+  5: { start: 13, end: 22 },
+  6: { start: 13, end: 22 },
+  0: { start: 13, end: 22 }
+};
+function updateBusinessStatus(){
+  const now=new Date();
+  const day=now.getDay();
+  const hour=now.getHours();
+  const isOpen=BUSINESS_HOURS[day]&&hour>=BUSINESS_HOURS[day].start&&hour<BUSINESS_HOURS[day].end;
+  const statusText=document.querySelector('#statusText');
+  const statusIndicator=document.querySelector('#statusIndicator');
+  statusText.textContent=isOpen?'Aberto agora':'Fechado';
+  statusIndicator.className=isOpen?'status-open':'status-closed';
+}
+updateBusinessStatus();
+setInterval(updateBusinessStatus,60000);
 const sizes = [{name:'Pequeno',detail:'300 ml',price:12},{name:'Médio',detail:'500 ml',price:16},{name:'Grande',detail:'700 ml',price:20}];
 const included = ['Granola','Leite em pó','Paçoca','Amendoim','Confete','Coco ralado','Farinha láctea','Calda de morango'];
 const extras = [{name:'Morango',price:3},{name:'Banana',price:2},{name:'Nutella',price:4},{name:'Leite Ninho',price:3},{name:'Ovomaltine',price:3},{name:'Whey protein',price:5}];

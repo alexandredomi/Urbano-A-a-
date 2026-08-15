@@ -124,7 +124,9 @@ button { -webkit-tap-highlight-color: transparent; }
 .profile-details h1 { margin: 0; font-size: clamp(28px, 4vw, 39px); line-height: 1; letter-spacing: -1.4px; }
 .profile-category, .profile-status { margin: 5px 0 0; color: #786d7d; font-size: 14px; }
 .profile-status { color: #4c3e50; font-weight: 700; }
-.profile-status span { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 50%; background: #9cda22; }
+.profile-status span:first-child { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 50%; transition: background .2s; }
+.profile-status .status-open { background: #9cda22; }
+.profile-status .status-closed { background: #c41e3a; }
 .profile-status a { color: inherit; text-decoration: none; transition: color .2s; }
 .profile-status a:hover { color: #8bd20f; }
 
@@ -563,7 +565,7 @@ footer p { margin: 0; color: #d9c8dc; font-size: 12px; }
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 40px;
+  gap: 10px;
   width: 100%;
 }
 
@@ -573,17 +575,30 @@ footer p { margin: 0; color: #d9c8dc; font-size: 12px; }
   flex: 1;
 }
 
+.footer-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .footer-section h4 {
   font-size: 14px;
   font-weight: 600;
   color: var(--line);
+  margin: 0;
 }
 
 .footer-section a {
   color: #d9c8dc;
   font-size: 12px;
-  line-height: 1.5;
   transition: color .2s;
+}
+
+.footer-section p {
+  margin: 0;
+  color: #d9c8dc;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .footer-section a:hover {
