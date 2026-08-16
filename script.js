@@ -117,8 +117,14 @@ function renderCart(){
   persistCart();
   const root=document.querySelector('#cartItems');
   const count=cart.reduce((sum,item)=>sum+item.qty,0);
+  const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+  const quickButton=document.querySelector('#sendOrderQuick');
+  const expandedButton=document.querySelector('#sendOrder');
   document.querySelector('#cartCount').textContent=count;
-  document.querySelector('#sendOrder').disabled=!cart.length;
+  document.querySelector('#cartTotal').textContent=money(total);
+  const disabled=!cart.length;
+  quickButton.disabled=disabled;
+  expandedButton.disabled=disabled;
   if(!cart.length){
     root.innerHTML='<p class="empty">Sua sacola está vazia.<br>Monte um açaí e adicione aqui.</p>';
     return;
@@ -142,25 +148,16 @@ function showToast(message,type='error'){
   toastText.textContent=message;
   toast.classList.remove('success','error');
   toast.classList.add('show',type);
-  
-  let timeoutId;
-  const closeToast=()=>{
-    clearTimeout(timeoutId);
+
+  clearTimeout(toast._timer);
+  toast._timer=setTimeout(()=>{
     toast.classList.remove('show');
-    document.removeEventListener('click',closeToast);
-    toast.querySelector('.toast-close').removeEventListener('click',closeToast);
-  };
-  
-  const toastCloseBtn=toast.querySelector('.toast-close');
-  toastCloseBtn.onclick=(e)=>{e.stopPropagation();closeToast()};
-  document.addEventListener('click',closeToast);
-  
-  timeoutId=setTimeout(closeToast,6000);
+  },6000);
 }
 function toggleCart(force){const summary=document.querySelector('.summary'),open=typeof force==='boolean'?force:!summary.classList.contains('expanded');summary.classList.toggle('expanded',open);document.querySelector('#cartToggle').setAttribute('aria-expanded',open)}
 document.querySelector('#cartToggle').onclick=()=>toggleCart();document.querySelector('#closeCart').onclick=()=>toggleCart(false);
 document.addEventListener('click',event=>{const summary=document.querySelector('.summary');if(summary.classList.contains('expanded')&&!summary.contains(event.target))toggleCart(false)});
-document.querySelector('#sendOrder').onclick=()=>{
+function handleSendOrder(){
   if(!cart.length){showToast('Sua sacola está vazia.','error');return}
 
   const now=new Date();
@@ -187,5 +184,42 @@ document.querySelector('#sendOrder').onclick=()=>{
   renderCart();
   toggleCart(false);
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`,'_blank');
-};
+}
+
+function openInfoModal(){
+  const modal=document.querySelector('#infoModal');
+  if(!modal) return;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+
+function closeInfoModal(){
+  const modal=document.querySelector('#infoModal');
+  if(!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+
+const infoIcon=document.querySelector('[data-open-modal]');
+if(infoIcon){
+  infoIcon.addEventListener('click',event=>{
+    event.preventDefault();
+    openInfoModal();
+  });
+}
+
+document.querySelector('#closeInfoModal')?.addEventListener('click',closeInfoModal);
+document.querySelector('#infoModal')?.addEventListener('click',event=>{
+  if(event.target===event.currentTarget) closeInfoModal();
+});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape') closeInfoModal();
+});
+
+['#sendOrder', '#sendOrderQuick'].forEach(selector => {
+  const button=document.querySelector(selector);
+  if(button) button.onclick=handleSendOrder;
+});
 updateSelectionInfo();renderCart();

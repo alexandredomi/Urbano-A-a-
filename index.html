@@ -26,7 +26,7 @@
           <h1>Açaí Urbano</h1>
           <p class="profile-category">Açaí e sobremesas</p>
           <p class="profile-status"><span id="statusIndicator"></span> <span id="statusText">Aberto agora</span></p>
-          <a href="#footer" class="profile-info-icon" aria-label="Ir para informações"><img src="img/info.png" alt="Informações"></a>
+          <a href="#" class="profile-info-icon" aria-label="Abrir informações da loja" data-open-modal><img src="img/info.png" alt="Informações"></a>
         </div>
       </div>
     </div>
@@ -82,23 +82,80 @@
             <img class="cart-icon" src="img/sacola-de-compras.png" alt="Sacola de compras">
             Minha sacola <b id="cartCount">0</b>
           </span>
+
+          <div class="cart-summary-meta">
+            <span class="cart-total-pill">
+              <small>Total</small>
+              <strong id="cartTotal">R$ 0,00</strong>
+            </span>
+          </div>
+
           <div class="current-order">
             <span><small>Seu açaí</small><strong id="currentTotal">R$ 0,00</strong></span>
             <button id="addToCart" type="button" disabled>Adicionar</button>
           </div>
+
+          <button class="whatsapp whatsapp-quick" data-send-order type="button" id="sendOrderQuick" disabled>
+            Finalizar pedido no WhatsApp <span>↗</span>
+          </button>
         </div>
         <div class="cart-details" id="cartDetails">
           <div class="summary-top"><p>ITENS DA SACOLA</p><button class="close-cart" id="closeCart" type="button" aria-label="Fechar sacola">×</button></div>
           <div class="cart-items" id="cartItems"></div>
-          <button class="whatsapp" id="sendOrder" type="button">Finalizar pedido no WhatsApp <span>↗</span></button>
           <p class="pickup-note">Retirada no local · pagamento na retirada</p>
+          <button class="whatsapp" data-send-order id="sendOrder" type="button">Finalizar pedido no WhatsApp <span>↗</span></button>
         </div>
       </aside>
     </div>
 
   </main>
 
-  <div class="toast" id="toast" role="status"><span></span><button class="toast-close" aria-label="Fechar">×</button></div>
+  <div class="toast" id="toast" role="status"><span></span></div>
+
+  <div class="info-modal-overlay" id="infoModal" aria-hidden="true">
+    <div class="info-modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+      <button class="info-modal-close" id="closeInfoModal" type="button" aria-label="Fechar informações">×</button>
+      <div class="info-modal-header">
+        <div class="info-modal-logo">
+          <img src="img/fiv-icon.png" alt="Logo Açaí Urbano">
+        </div>
+        <div>
+          <p class="profile-label">LOJA</p>
+          <h3 id="infoModalTitle">Açaí Urbano</h3>
+        </div>
+      </div>
+
+      <div class="info-modal-body">
+        <div class="info-item">
+          <span>Horários</span>
+          <p>Terça a domingo: 13:00 às 22:00</p>
+          <p>Segunda: fechado</p>
+        </div>
+
+        <div class="info-item">
+          <span>WhatsApp</span>
+          <a href="https://wa.me/5553984415919" target="_blank" rel="noopener noreferrer">(53) 9 8441-5919</a>
+        </div>
+
+        <div class="info-item">
+          <span>Instagram</span>
+          <a href="https://instagram.com/acaiurbano" target="_blank" rel="noopener noreferrer">@acaiurbano</a>
+        </div>
+        <div class="info-item">
+          <span>Endereço</span>
+          <a href="https://maps.google.com/maps?q=Clovis+Bevilaqua+451+Simoes+Lopes+Pelotas+RS" target="_blank" rel="noopener noreferrer">
+            Clóvis Beviláqua, 451 - Simões Lopes, Pelotas/RS
+          </a>
+        </div>
+        <div class="info-item">
+          <span>Localização</span>
+          <a href="https://maps.google.com/maps?q=Clovis+Bevilaqua+451+Simoes+Lopes+Pelotas+RS" target="_blank" rel="noopener noreferrer">
+            Abrir no Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer id="footer"><div class="container">
     <div class="footer-content">
