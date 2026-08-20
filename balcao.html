@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#321447">
+  <title>Açaí Urbano | Balcão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="balcao.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Voltar para o site público">
+      <img src="img/fiv-icon.png" alt="">
+      <span>Açaí <b>Urbano</b></span>
+    </a>
+    <div class="top-actions"><a class="management-link" href="gestao.html"><span aria-hidden="true">▦</span> Gestão</a><div class="mode"><span class="live-dot"></span> MODO BALCÃO <small>uso interno</small></div></div>
+  </header>
+
+  <main class="app-shell">
+    <section class="workspace" aria-labelledby="pageTitle">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">NOVO ATENDIMENTO</p>
+          <h1 id="pageTitle">Montar pedido</h1>
+          <p class="subheading">Monte o pedido no balcão e libere para a cozinha somente após o pagamento.</p>
+        </div>
+        <div class="order-badge"><span id="draftLabel">RASCUNHO</span><strong id="draftTotal">R$ 0,00</strong></div>
+      </div>
+
+      <div class="customer-row">
+        <label>Nome ou senha do cliente <input id="customerName" maxlength="40" placeholder="Ex.: Ana ou senha 24" autocomplete="off"></label>
+        <label>Observação geral <input id="orderNote" maxlength="120" placeholder="Ex.: pouco leite em pó" autocomplete="off"></label>
+      </div>
+
+      <section class="builder-section">
+        <div class="section-title"><span>01</span><div><h2>Tamanho</h2><p>Escolha a base do açaí</p></div></div>
+        <div class="size-grid" id="sizes"></div>
+      </section>
+
+      <section class="builder-section">
+        <div class="section-title"><span>02</span><div><h2>Complementos grátis</h2><p>Até <b id="includedLimit">3</b> opções inclusas</p></div></div>
+        <div class="option-grid" id="included"></div>
+      </section>
+
+      <section class="builder-section">
+        <div class="section-title"><span>03</span><div><h2>Extras</h2><p>Adicionais cobrados no pedido</p></div></div>
+        <div class="option-grid" id="extras"></div>
+      </section>
+
+      <div class="builder-footer">
+        <div><span>Total deste açaí</span><strong id="itemTotal">R$ 0,00</strong></div>
+        <button class="primary-button" id="addItem" type="button" disabled>Adicionar ao pedido <span>+</span></button>
+      </div>
+    </section>
+
+    <aside class="order-panel" aria-live="polite">
+      <div class="panel-heading"><div><p class="eyebrow">ATENDIMENTO ATUAL</p><h2>Pedido do balcão</h2></div><span class="item-count" id="itemCount">0 itens</span></div>
+      <div class="draft-items" id="draftItems"><div class="empty-state"><span>＋</span><p>Adicione os açaís<br>montados ao pedido.</p></div></div>
+      <div class="panel-total"><span>Total a pagar</span><strong id="orderTotal">R$ 0,00</strong></div>
+      <div class="payment-lock">
+        <div class="lock-icon">✓</div>
+        <div><strong>Pagamento manual no balcão</strong><p>Confirme o recebimento antes de enviar para a cozinha.</p></div>
+      </div>
+      <button class="paid-button" id="paidAndSend" type="button" disabled><span>✓</span> Pedido pago · enviar à cozinha</button>
+      <button class="secondary-button" id="clearDraft" type="button" disabled>Limpar pedido</button>
+    </aside>
+  </main>
+
+  <section class="kitchen-section" aria-labelledby="kitchenTitle">
+    <div class="kitchen-heading"><div><p class="eyebrow">PRODUÇÃO</p><h2 id="kitchenTitle">Fila da cozinha</h2></div><div class="queue-count" id="queueCount">0 aguardando</div></div>
+    <div class="kitchen-grid" id="kitchenQueue"><div class="empty-queue">Nenhum pedido pago aguardando preparo.</div></div>
+  </section>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="balcao.js"></script>
+</body>
+</html>

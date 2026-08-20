@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#321447">
+  <title>Açaí Urbano | Gestão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="gestao.css">
+</head>
+<body class="locked">
+  <header class="topbar">
+    <a class="brand" href="balcao.html"><img src="img/fiv-icon.png" alt=""><span>Açaí <b>Urbano</b></span></a>
+    <div class="top-actions"><a href="balcao.html">Voltar ao balcão</a><button class="logout-button" id="logout" type="button">Sair</button><div class="mode"><span class="live-dot"></span> GESTÃO <small>uso interno</small></div></div>
+  </header>
+
+  <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
+    <div class="login-box">
+      <img src="img/fiv-icon.png" alt="Logo Açaí Urbano">
+      <p class="eyebrow">ACESSO INTERNO</p>
+      <h1 id="loginTitle">Gestão de vendas</h1>
+      <p>Digite a senha para acessar os relatórios.</p>
+      <form id="loginForm">
+        <label for="accessPassword">Senha</label>
+        <input id="accessPassword" type="password" autocomplete="current-password" autofocus>
+        <button type="submit">Entrar na gestão</button>
+        <small id="loginError" role="alert"></small>
+      </form>
+    </div>
+  </section>
+
+  <main class="page-shell">
+    <div class="page-heading"><div><p class="eyebrow">CONTROLE DA LOJA</p><h1>Gestão de vendas</h1><p>Veja o movimento, quantidade vendida e lucro por período.</p></div><button id="refresh" class="refresh-button" type="button">Atualizar dados</button></div>
+
+    <section class="filter-panel">
+      <div class="period-tabs" role="tablist"><button class="period-tab active" data-period="week" type="button">Esta semana</button><button class="period-tab" data-period="month" type="button">Este mês</button><button class="period-tab" data-period="all" type="button">Tudo</button><button class="period-tab" data-period="custom" type="button">Personalizado</button></div>
+      <div class="date-fields"><label>De <input id="startDate" type="date"></label><label>Até <input id="endDate" type="date"></label><button id="applyDates" class="apply-button" type="button">Aplicar período</button></div>
+      <p class="filter-caption" id="filterCaption"></p>
+    </section>
+
+    <section class="metrics-grid">
+      <article class="metric-card accent-purple"><span>Faturamento</span><strong id="revenue">R$ 0,00</strong><small>total vendido no período</small></article>
+      <article class="metric-card accent-lime"><span>Lucro estimado</span><strong id="profit">R$ 0,00</strong><small>vendas menos custos cadastrados</small></article>
+      <article class="metric-card accent-orange"><span>Pedidos pagos</span><strong id="orders">0</strong><small>comandas liberadas</small></article>
+      <article class="metric-card accent-pink"><span>Açaís vendidos</span><strong id="acaiCount">0</strong><small>unidades montadas</small></article>
+    </section>
+
+    <div class="content-grid">
+      <section class="panel sales-panel"><div class="panel-title"><div><p class="eyebrow">DESEMPENHO</p><h2>Resumo das vendas</h2></div><span id="averageTicket">Ticket médio: R$ 0,00</span></div><div class="chart" id="salesChart"></div></section>
+      <section class="panel ranking-panel"><div class="panel-title"><div><p class="eyebrow">MIX DE PRODUTOS</p><h2>Mais vendidos</h2></div></div><div id="productRanking" class="ranking-list"></div></section>
+    </div>
+
+    <section class="panel details-panel"><div class="panel-title"><div><p class="eyebrow">CONFERÊNCIA</p><h2>Vendas por dia</h2></div><span id="detailCount"></span></div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Pedidos</th><th>Açaís</th><th>Faturamento</th><th>Lucro estimado</th></tr></thead><tbody id="dailyTable"></tbody></table></div></section>
+
+    <section class="panel orders-panel"><div class="panel-title"><div><p class="eyebrow">HISTÓRICO</p><h2>Pedidos do período</h2><p>Exclua uma venda quando o pedido for cancelado.</p></div><span id="orderHistoryCount"></span></div><div class="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Data e hora</th><th>Itens</th><th>Total</th><th></th></tr></thead><tbody id="orderHistory"></tbody></table></div></section>
+
+    <section class="panel catalog-panel"><div class="panel-title"><div><p class="eyebrow">CARDÁPIO DO BALCÃO</p><h2>Configurar produtos</h2><p>Altere o que aparece na montagem dos pedidos.</p></div><button id="saveCatalog" class="apply-button" type="button">Salvar cardápio</button></div><div class="catalog-grid"><div class="catalog-group"><h3>Tamanhos</h3><div id="sizeCatalog"></div><button class="add-catalog" data-add="size" type="button">+ Adicionar tamanho</button></div><div class="catalog-group"><h3>Complementos grátis</h3><div id="includedCatalog"></div><button class="add-catalog" data-add="included" type="button">+ Adicionar complemento</button></div><div class="catalog-group"><h3>Extras</h3><div id="extraCatalog"></div><button class="add-catalog" data-add="extra" type="button">+ Adicionar extra</button></div></div><p class="saved-message" id="catalogMessage"></p></section>
+
+    <section class="panel costs-panel"><div class="panel-title"><div><p class="eyebrow">CONFIGURAÇÃO</p><h2>Custos dos produtos</h2><p>Informe quanto custa produzir cada item para o lucro ficar mais preciso.</p></div><button id="saveCosts" class="apply-button" type="button">Salvar custos</button></div><div class="cost-fields" id="costFields"></div><p class="saved-message" id="savedMessage"></p></section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="gestao.js"></script>
+</body>
+</html>
